@@ -10,9 +10,25 @@ log = logging.getLogger("parsers")
 
 # name → module path under parsers.sources
 _SOURCES: dict[str, str] = {
-    "imessage": "parsers.sources.imessage",
+    "bear": "parsers.sources.bear",
     "chatgpt": "parsers.sources.chatgpt",
+    "claude": "parsers.sources.claude",
+    "films": "parsers.sources.films",
+    "git": "parsers.sources.git",
+    "healthkit": "parsers.sources.healthkit",
+    "hinge": "parsers.sources.hinge",
+    "imessage": "parsers.sources.imessage",
+    "instagram": "parsers.sources.instagram",
     "logseq": "parsers.sources.logseq",
+    "mbox": "parsers.sources.mbox",
+    "notes": "parsers.sources.notes",
+    "papers": "parsers.sources.papers",
+    "pinterest": "parsers.sources.pinterest",
+    "raycast": "parsers.sources.raycast",
+    "signal": "parsers.sources.signal",
+    "twitter": "parsers.sources.twitter",
+    "whatsapp": "parsers.sources.whatsapp",
+    "yfull": "parsers.sources.yfull",
 }
 
 

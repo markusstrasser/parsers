@@ -1,0 +1,23 @@
+[project]
+name = "parsers"
+version = "0.1.0"
+description = "Parse personal data exports into uniform records"
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.9",
+    "python-dateutil>=2.9",
+]
+
+[project.optional-dependencies]
+google = ["google-api-python-client>=2.0", "google-auth-oauthlib>=1.0"]
+all = ["parsers[google]"]
+
+[project.scripts]
+parsers = "parsers.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/parsers"]

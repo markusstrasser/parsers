@@ -68,6 +68,25 @@ uvx --from "parsers @ git+https://github.com/markusstrasser/parsers.git" parsers
 | `whatsapp` | `~/Library/Group Containers/.../ChatStorage.sqlite` | macOS |
 | `signal` | Signal Desktop via `sigexport` | Any (needs Signal Desktop) |
 
+### Google API (requires credentials)
+
+Install with `pip install "parsers[google]"` for these sources.
+
+| Source | API | Scope |
+|--------|-----|-------|
+| `gmail` | Gmail API | `gmail.readonly` |
+| `calendar` | Google Calendar API | `calendar.readonly` |
+| `youtube` | YouTube Data API | `youtube.readonly` |
+| `drive` | Google Drive API | `drive.readonly` |
+
+Setup:
+1. Create a Google Cloud project, enable the relevant APIs
+2. Create OAuth 2.0 credentials (Desktop app type)
+3. Download the JSON to `~/.config/refs/credentials.json`
+4. First run opens a browser for consent — tokens auto-refresh after that
+
+All four also accept a `path` argument to read from a previously-exported JSON file instead of calling the API.
+
 ## Python API
 
 ```python

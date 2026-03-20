@@ -11,10 +11,13 @@ log = logging.getLogger("parsers")
 # name → module path under parsers.sources
 _SOURCES: dict[str, str] = {
     "bear": "parsers.sources.bear",
+    "calendar": "parsers.sources.calendar",
     "chatgpt": "parsers.sources.chatgpt",
     "claude": "parsers.sources.claude",
+    "drive": "parsers.sources.drive",
     "films": "parsers.sources.films",
     "git": "parsers.sources.git",
+    "gmail": "parsers.sources.gmail",
     "healthkit": "parsers.sources.healthkit",
     "hinge": "parsers.sources.hinge",
     "imessage": "parsers.sources.imessage",
@@ -29,6 +32,7 @@ _SOURCES: dict[str, str] = {
     "twitter": "parsers.sources.twitter",
     "whatsapp": "parsers.sources.whatsapp",
     "yfull": "parsers.sources.yfull",
+    "youtube": "parsers.sources.youtube",
 }
 
 

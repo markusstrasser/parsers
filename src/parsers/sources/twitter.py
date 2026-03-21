@@ -46,9 +46,9 @@ def parse(path: Path | None = None, *, owner: str | None = None, **kwargs) -> It
         extra_cols.append("NULL as is_quote, NULL as quoted_author, NULL as quoted_text")
     if has_engagement:
         extra_joins.append("LEFT JOIN tweet_engagement te ON p.post_id = te.post_id")
-        extra_cols.append("te.favorite_count, te.reply_count, te.is_reply")
+        extra_cols.append("te.favorite_count, te.reply_count, te.retweet_count, te.is_reply, te.in_reply_to_screen_name")
     else:
-        extra_cols.append("NULL as favorite_count, NULL as reply_count, NULL as is_reply")
+        extra_cols.append("NULL as favorite_count, NULL as reply_count, NULL as retweet_count, NULL as is_reply, NULL as in_reply_to_screen_name")
 
     rows = conn.execute(f"""
         SELECT p.post_id, p.tweet_url, p.author_screen_name, p.author_name,
@@ -117,12 +117,20 @@ def parse(path: Path | None = None, *, owner: str | None = None, **kwargs) -> It
             date = date_raw[:10] if date_raw else ""
 
             is_mine = owner_lower and author.lower() == owner_lower
+            media_types_raw = row["media_types"] or ""
+            media_type_list = [t.strip() for t in media_types_raw.split(",") if t.strip()]
             meta: dict = {
                 "screen_name": author,
                 "tweet_url": row["tweet_url"],
                 "media_count": row["media_count"],
                 "channel": "authored" if is_mine else "curated",
             }
+            if row["author_name"]:
+                meta["author_name"] = row["author_name"]
+            if media_type_list:
+                meta["media_types"] = media_type_list
+            if "video" in media_type_list or "animated_gif" in media_type_list:
+                meta["has_video"] = True
             if is_mine:
                 meta["is_from_me"] = True
             if ri:
@@ -132,6 +140,12 @@ def parse(path: Path | None = None, *, owner: str | None = None, **kwargs) -> It
             fav = row["favorite_count"]
             if fav is not None:
                 meta["favorite_count"] = fav
+            reply_ct = row["reply_count"]
+            if reply_ct is not None:
+                meta["reply_count"] = reply_ct
+            rt_ct = row["retweet_count"]
+            if rt_ct is not None:
+                meta["retweet_count"] = rt_ct
 
             yield {
                 "id": f"twitter_{row['post_id']}",
